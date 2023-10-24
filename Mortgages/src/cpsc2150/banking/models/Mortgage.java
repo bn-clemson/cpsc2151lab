@@ -24,28 +24,28 @@ public class Mortgage extends AbsMortgage implements IMortgage
         Customer = cust;
         principal = homeCost - downPayment;
         percentDown = downPayment/homeCost;
-        numberOfPayments = years * 12;
+        numberOfPayments = years * MONTHS_IN_YEAR;
 
         //Calculating the APR and then the interest rate
-        rate = .025;
-        rate = ((years<30) ? rate+0.005 : rate+.01);
-        rate = ((percentDown<0.20) ? rate+0.05 : rate);
+        rate = BASERATE;
+        rate = ((years<MAX_YEARS) ? rate+GOODRATEADD : rate+NORMALRATEADD);
+        rate = ((percentDown<PREFERRED_PERCENT_DOWN) ? rate+BADRATEADD : rate);
         double credit = cust.getCreditScore();
-        if (credit < 500) {
-            rate += 0.10;
+        if (credit < BADCREDIT) {
+            rate += VERYBADRATEADD;
         }
-        else if (credit >= 500 && credit < 600) {
-            rate += 0.05;
+        else if (credit >= BADCREDIT && credit < FAIRCREDIT) {
+            rate += BADRATEADD;
         }
-        else if (credit >= 600 && credit < 700) {
-            rate += 0.01;
+        else if (credit >= FAIRCREDIT && credit < GOODCREDIT) {
+            rate += NORMALRATEADD;
         }
-        else if (credit >= 700 && credit < 750) {
-            rate += 0.05;
+        else if (credit >= GOODCREDIT && credit < GREATCREDIT) {
+            rate += GOODRATEADD;
         }
-        rate /= 12; //divide APR by 12 to get monthly interest rate
+        rate /= MONTHS_IN_YEAR; //divide APR by 12 to get monthly interest rate
 
-        payment = (rate*principal)/Math.pow((1-(1+rate)),-numberOfPayments);
+        payment = (rate*principal)/Math.pow((1-(1+rate)),-numberOfPayments); //the 1s are just part of the monthly payment formula
 
         debtToIncomeRatio = (cust.getMonthlyDebtPayments()+payment)/cust.getIncome();
     }
@@ -65,7 +65,7 @@ public class Mortgage extends AbsMortgage implements IMortgage
     @Override
     public boolean loanApproved()
     {
-        return (rate * 12 < RATETOOHIGH) && (percentDown >= MIN_PERCENT_DOWN) && (debtToIncomeRatio <= DTOITOOHIGH);
+        return (rate * MONTHS_IN_YEAR < RATETOOHIGH) && (percentDown >= MIN_PERCENT_DOWN) && (debtToIncomeRatio <= DTOITOOHIGH);
     }
 
     @Override
