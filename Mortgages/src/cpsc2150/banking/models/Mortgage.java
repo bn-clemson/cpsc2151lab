@@ -1,5 +1,10 @@
 package cpsc2150.banking.models;
 
+/**
+ * @invariant homeCost >= 0 AND downPayment >= 0 AND years >= 0 AND customer >= 0
+ * @correspondence self.HomeCost = homeCost AND self.DownPayment = downPayment AND self.Years = years AND
+ *                  self.Customer = customer
+ */
 public class Mortgage extends AbsMortgage implements IMortgage
 {
     private double payment = 0;
