@@ -20,4 +20,8 @@ public class Mortgage extends AbsMortgage implements IMortgage
     }
 
     double getRate
+
+    int getYears() {
+        return numberOfPayments / MONTHS_PER_YEAR;
+    }
 }
