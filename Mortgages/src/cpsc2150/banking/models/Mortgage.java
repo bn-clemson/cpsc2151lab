@@ -49,7 +49,7 @@ public class Mortgage extends AbsMortgage implements IMortgage
     double getRate
 
     public double getPrincipal() {
-        return homeCost - downPayment;
+        return principal;
     }
 
     public int getYears() {
