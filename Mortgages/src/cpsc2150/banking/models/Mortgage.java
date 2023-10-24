@@ -8,6 +8,7 @@ package cpsc2150.banking.models;
  */
 public class Mortgage extends AbsMortgage implements IMortgage
 {
+    private int years = 0;
     private double payment = 0;
     private double rate = 0;
     private ICustomer Customer;
@@ -16,7 +17,10 @@ public class Mortgage extends AbsMortgage implements IMortgage
     private int numberOfPayments = 0;
     private double percentDown = 0;
 
-    Mortgage(double homeCost, double downPayment, int years, ICustomer cust) {
+    Mortgage(double homeCost, double downPayment, int years, ICustomer cust)
+    {
+        this.years = years;
+
         Customer = cust;
         principal = homeCost - downPayment;
         percentDown = downPayment/homeCost;
@@ -46,13 +50,33 @@ public class Mortgage extends AbsMortgage implements IMortgage
         debtToIncomeRatio = (cust.getMonthlyDebtPayments()+payment)/cust.getIncome();
     }
 
-    double getRate
-
-    public double getPrincipal() {
+    @Override
+    public double getPrincipal()
+    {
         return principal;
     }
 
-    public int getYears() {
-        return numberOfPayments / MONTHS_PER_YEAR;
+    @Override
+    public int getYears()
+    {
+        return years;
+    }
+
+    @Override
+    public boolean loanApproved()
+    {
+        return (rate * 12 < RATETOOHIGH) && (percentDown >= MIN_PERCENT_DOWN) && (debtToIncomeRatio <= DTOITOOHIGH);
+    }
+
+    @Override
+    public double getPayment()
+    {
+        return payment;
+    }
+
+    @Override
+    public double getRate()
+    {
+        return rate;
     }
 }
