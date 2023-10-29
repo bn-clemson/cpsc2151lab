@@ -23,31 +23,31 @@ public class Mortgage extends AbsMortgage implements IMortgage
 
         Customer = cust;
         principal = homeCost - downPayment;
-        percentDown = downPayment/homeCost;
+        percentDown = downPayment / homeCost;
         numberOfPayments = years * MONTHS_IN_YEAR;
 
         //Calculating the APR and then the interest rate
         rate = BASERATE;
-        rate = ((years<MAX_YEARS) ? rate+GOODRATEADD : rate+NORMALRATEADD);
-        rate = ((percentDown<PREFERRED_PERCENT_DOWN) ? rate+BADRATEADD : rate);
+        rate = ((years < MAX_YEARS) ? rate + GOODRATEADD : rate + NORMALRATEADD);
+        rate = ((percentDown < PREFERRED_PERCENT_DOWN) ? rate + GOODRATEADD : rate);
         double credit = cust.getCreditScore();
         if (credit < BADCREDIT) {
             rate += VERYBADRATEADD;
         }
-        else if (credit >= BADCREDIT && credit < FAIRCREDIT) {
+        else if (credit < FAIRCREDIT) {
             rate += BADRATEADD;
         }
-        else if (credit >= FAIRCREDIT && credit < GOODCREDIT) {
+        else if (credit < GOODCREDIT) {
             rate += NORMALRATEADD;
         }
-        else if (credit >= GOODCREDIT && credit < GREATCREDIT) {
+        else if (credit < GREATCREDIT) {
             rate += GOODRATEADD;
         }
-        rate /= MONTHS_IN_YEAR; //divide APR by 12 to get monthly interest rate
+        rate /= MONTHS_IN_YEAR;
 
-        payment = (rate*principal)/Math.pow((1-(1+rate)),-numberOfPayments); //the 1s are just part of the monthly payment formula
+        payment = (rate * principal) / (1 - (Math.pow((1 + rate), -numberOfPayments)));
 
-        debtToIncomeRatio = (cust.getMonthlyDebtPayments()+payment)/cust.getIncome();
+        debtToIncomeRatio = (cust.getMonthlyDebtPayments() + payment) / (cust.getIncome() / MONTHS_IN_YEAR);
     }
 
     @Override
@@ -77,6 +77,6 @@ public class Mortgage extends AbsMortgage implements IMortgage
     @Override
     public double getRate()
     {
-        return rate;
+        return rate * 12;
     }
 }
