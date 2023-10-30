@@ -1,3 +1,6 @@
+/*
+    Team: Isiah Pham, Korey Bryant, Ben Nazaruk, Kaylee Pierce
+ */
 package cpsc2150.banking.models;
 
 public abstract class AbsMortgage implements IMortgage {

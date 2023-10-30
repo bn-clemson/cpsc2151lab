@@ -1,10 +1,20 @@
+/*
+    Team: Isiah Pham, Korey Bryant, Ben Nazaruk, Kaylee Pierce
+ */
 package cpsc2150.banking.models;
-//import java.lang.Math;
 
 /**
- * @invariant homeCost >= 0 AND downPayment >= 0 AND years >= 0 AND customer >= 0
- * @correspondence self.HomeCost = homeCost AND self.DownPayment = downPayment AND self.Years = years AND
- *                  self.Customer = customer
+ * Mortgage contains the necessary information for a home mortgage.
+ *
+ * @invariant MIN_YEARS <= years <= MAX_YEARS
+ *
+ * @correspondense Payment = payment
+ * @correspondense Rate = rate
+ * @correspondense Customer = this.Customer
+ * @correspondense DebtToIncomeRatio = debtToIncomeRation
+ * @correspondense Principal = principal
+ * @correspondense NumberOfPayments = numberOfPayments
+ * @correspondense PercentDown = percentDown
  */
 public class Mortgage extends AbsMortgage implements IMortgage
 {
@@ -17,11 +27,26 @@ public class Mortgage extends AbsMortgage implements IMortgage
     private int numberOfPayments = 0;
     private double percentDown = 0;
 
-    Mortgage(double homeCost, double downPayment, int years, ICustomer cust)
+    /**
+     * Constructor for Mortgage object. Initializes all the variables via the parameters.
+     *
+     * @pre homeCost > 0 AND 0 <= downPayment < homeCost AND MIN_YEARS <= loanYears <= MAX_YEARS
+     *
+     * @param homeCost the total cost of the home
+     * @param downPayment the down payment on the home
+     * @param loanYears the length of the loan in years
+     * @param cust the customer of the loan
+     *
+     * @post this.years = years AND Customer = cust AND principal = homeCost - downPayment AND
+     * percentDown = downPayment / homeCost AND numberOfPayments = years * MONTHS_IN_YEARS AND [rate
+     * is calculated based on credit score, length of the mortgage, and percent down] AND
+     * payment = (rate * principle) / (1 - (1 + rate) ^ (- numberOfPayments)) AND
+     * debtToIncomeRation = ([customer's monthly debt payments] + payments) / ([the customer's yearly income] / MONTHS_IN_YEAR)
+     */
+    Mortgage(double homeCost, double downPayment, int loanYears, ICustomer cust)
     {
-        this.years = years;
-
         Customer = cust;
+        years = loanYears;
         principal = homeCost - downPayment;
         percentDown = downPayment / homeCost;
         numberOfPayments = years * MONTHS_IN_YEAR;

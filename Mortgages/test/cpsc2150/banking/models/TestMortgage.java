@@ -1,3 +1,6 @@
+/*
+    Team: Isiah Pham, Korey Bryant, Ben Nazaruk, Kaylee Pierce
+ */
 package cpsc2150.banking.models;
 
 import org.junit.Test;
