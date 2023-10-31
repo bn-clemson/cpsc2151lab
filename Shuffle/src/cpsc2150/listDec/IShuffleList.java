@@ -1,3 +1,6 @@
+/*
+    Team: Isaiah Pham, Korey Bryant, Ben Nazaruk, Kaylee Pierce
+ */
 package cpsc2150.listDec;
 
 import java.util.List;
