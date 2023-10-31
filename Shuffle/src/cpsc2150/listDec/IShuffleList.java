@@ -6,6 +6,9 @@ package cpsc2150.listDec;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * IShuffleList provides shuffle and swap functionality for the List interface.
+ */
 public interface IShuffleList<T> extends List<T>
 {
     /**
