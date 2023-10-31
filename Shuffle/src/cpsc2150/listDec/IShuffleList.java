@@ -46,5 +46,15 @@ public interface IShuffleList<T> extends List<T>
      */
     default void swap(int i, int j)
     {
+        if(i>j) { //Making sure that i is less than j
+            int k = i;
+            i = j;
+            j = k;
+        }
+
+        T temp = remove(j);
+        add(i, temp);
+        temp = remove(i+1);
+        add(j, temp);
     }
 }
