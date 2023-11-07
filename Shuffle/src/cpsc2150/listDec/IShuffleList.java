@@ -8,17 +8,23 @@ import java.util.Random;
 
 /**
  * IShuffleList provides shuffle and swap functionality for the List interface.
+ *
+ * Initialization ensures:
+ *      The shuffle list utilizes the specified list implementation.
+ * Defines:
+ *      self
+ * Constraints:
+ *      |self| >= 0 AND self != null
  */
 public interface IShuffleList<T> extends List<T>
 {
     /**
      * Shuffles the elements in the list by randomly picking two positions and swapping them.
      *
-     * @param swaps
-     *          the number of times to shuffle the list
+     * @param swaps the number of times to shuffle the list
      *
-     * @pre swaps >= 0
-     * @post The elements in the list are randomly shuffled 'swaps' times.
+     * @pre swaps >= 0 AND |self| >= 2
+     * @post [two random elements in the list are swapped 'swaps' times]
      */
     default void shuffle(int swaps)
     {
@@ -44,8 +50,8 @@ public interface IShuffleList<T> extends List<T>
      * @param i the index of the first element to swap
      * @param j the index of the second element to swap
      *
-     * @pre 0 <= i < size() && 0 <= j < size()
-     * @post The elements at positions 'i' and 'j' have been swapped.
+     * @pre 0 <= i < |self| AND 0 <= j < |self| AND i != j
+     * @post [the elements at positions 'i' and 'j' have been swapped]
      */
     default void swap(int i, int j)
     {
